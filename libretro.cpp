@@ -29,13 +29,15 @@ void retro_get_system_info(struct retro_system_info *info)
    info->valid_extensions = "png";
 }
 
-static struct retro_system_timing g_timing;
-
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
-   retro_game_geometry geom = { 256, 240, 640, 480 };
-   info->geometry = geom;
-   info->timing   = g_timing;
+   info->geometry.base_width = image_width ;
+   info->geometry.base_height = image_height ;
+   info->geometry.max_width = image_width ;
+   info->geometry.max_height = image_height ;
+   info->geometry.aspect_ratio = 0;
+   info->timing.fps = 60.0;
+   info->timing.sample_rate = 44100.0;
 }
 
 void retro_init()
@@ -46,12 +48,6 @@ void retro_init()
       log_cb = log.log;
    else
       log_cb = NULL;
-
-   if (environ_cb)
-   {
-      g_timing.fps = 60.0;
-      g_timing.sample_rate = 44100; // ~32k
-   }
 
    image_buffer = NULL;
    image_width = 0;
@@ -129,11 +125,7 @@ bool retro_load_game(const struct retro_game_info *info)
          log_cb(RETRO_LOG_INFO, "XRGB8888 is not supported.\n");
       return false;
    }
-   retro_game_geometry geom = { image_width, image_height, image_width, image_height };
-   struct retro_system_av_info av_info;
-   av_info.geometry = geom;
-   av_info.timing = g_timing;
-   environ_cb(RETRO_ENVIRONMENT_SET_SYSTEM_AV_INFO, &av_info);
+
    return true;
 }
 
