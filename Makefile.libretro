@@ -160,8 +160,8 @@ endif
 EMU_DIR := src
 LIBRETRO_DIR := libretro
 
-CXXSRCS := libretro.cpp
-CSRCS := rpng.c
+CXXSRCS := 
+CSRCS := rpng.c libretro.c
 CXXOBJ := $(CXXSRCS:.cpp=.o) $(CSRCS:.c=.o)
 
 OBJS := $(CXXOBJ)

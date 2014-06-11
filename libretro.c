@@ -3,8 +3,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <fstream>
-#include <sstream>
 #include <string.h>
 #include <stdint.h>
 #include "rpng.h"
@@ -40,7 +38,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    info->timing.sample_rate = 44100.0;
 }
 
-void retro_init()
+void retro_init(void)
 {
    struct retro_log_callback log;
 
@@ -55,7 +53,7 @@ void retro_init()
 
 }
 
-void retro_deinit()
+void retro_deinit(void)
 {
    if (image_buffer)
       free(image_buffer);
@@ -76,14 +74,14 @@ void retro_set_environment(retro_environment_t cb)
 }
 
 void retro_set_video_refresh(retro_video_refresh_t cb) { video_cb = cb; }
-void retro_set_audio_sample(retro_audio_sample_t) { }
+void retro_set_audio_sample(retro_audio_sample_t unused) { }
 void retro_set_audio_sample_batch(retro_audio_sample_batch_t cb) { audio_batch_cb = cb; }
 void retro_set_input_poll(retro_input_poll_t cb) { input_poll_cb = cb; }
 void retro_set_input_state(retro_input_state_t cb) { input_state_cb = cb; }
 
-void retro_set_controller_port_device(unsigned, unsigned) {}
+void retro_set_controller_port_device(unsigned a, unsigned b) {}
 
-void retro_reset()
+void retro_reset(void)
 {
    if (image_buffer)
       free(image_buffer);
@@ -92,7 +90,7 @@ void retro_reset()
    image_height = 0;
 }
 
-size_t retro_serialize_size()
+size_t retro_serialize_size(void)
 {
    return 0;
 }
@@ -111,8 +109,8 @@ bool retro_unserialize(const void *data, size_t size)
    return false;
 }
 
-void retro_cheat_reset() {}
-void retro_cheat_set(unsigned, bool, const char *) {}
+void retro_cheat_reset(void) {}
+void retro_cheat_set(unsigned a, bool b, const char * c) {}
 
 bool retro_load_game(const struct retro_game_info *info)
 {
@@ -130,15 +128,15 @@ bool retro_load_game(const struct retro_game_info *info)
 }
 
 
-bool retro_load_game_special(unsigned, const struct retro_game_info*, size_t) { return false; }
+bool retro_load_game_special(unsigned a, const struct retro_game_info *b, size_t c) { return false; }
 
-void retro_unload_game()
+void retro_unload_game(void)
 {
    if (image_buffer)
       free(image_buffer);
 }
 
-unsigned retro_get_region() { return RETRO_REGION_NTSC; }
+   unsigned retro_get_region(void) { return RETRO_REGION_NTSC; }
 
 void *retro_get_memory_data(unsigned id)
 {
@@ -151,12 +149,12 @@ size_t retro_get_memory_size(unsigned id)
 }
 
 
-void retro_run()
+void retro_run(void)
 {
    input_poll_cb();
    video_cb(image_buffer, image_width, image_height, image_width * sizeof(uint32_t));
 
 }
 
-unsigned retro_api_version() { return RETRO_API_VERSION; }
+unsigned retro_api_version(void) { return RETRO_API_VERSION; }
 
