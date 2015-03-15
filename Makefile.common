@@ -1,0 +1,6 @@
+INCFLAGS := -I$(CORE_DIR) 
+
+SOURCES_CXX += 
+
+SOURCES_C   += $(CORE_DIR)/rpng.c \
+					$(CORE_DIR)/libretro.c

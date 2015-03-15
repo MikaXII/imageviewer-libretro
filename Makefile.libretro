@@ -28,7 +28,7 @@ else ifneq ($(findstring MINGW,$(shell uname -a)),)
    system_platform = win
 endif
 
-LIBRETRO_DIR := .
+CORE_DIR := .
 TARGET_NAME := imageviewer
 
 ifeq ($(platform), unix)
@@ -157,21 +157,18 @@ else
 	CXXFLAGS += -O3 -fno-exceptions -fno-rtti -DHAVE_STDINT_H
 endif
 
-EMU_DIR := src
-LIBRETRO_DIR := libretro
+SOURCES_CXX :=
+SOURCES_C   :=
 
-CXXSRCS := 
-CSRCS := rpng.c libretro.c
-CXXOBJ := $(CXXSRCS:.cpp=.o) $(CSRCS:.c=.o)
+include Makefile.common
 
-OBJS := $(CXXOBJ)
+OBJS += $(SOURCES_CXX:.cpp=.o) $(SOURCES_C:.c=.o)
 
-DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -DHAVE_STDINT_H -DHAVE_INTTYPES_H
+DEFINES := -D__LIBRETRO__ $(PLATFORM_DEFINES) -DHAVE_STDINT_H -DHAVE_INTTYPES_H $(INCFLAGS)
 
 CFLAGS += $(CODE_DEFINES) $(fpic) $(DEFINES)
 CXXFLAGS += $(fpic) $(DEFINES)
 
-INCDIRS := -I$(EMU_DIR) -Iinclude -I../common -I../common/resample -Ilibretro
 LIBS :=
 
 LDFLAGS += -lz
