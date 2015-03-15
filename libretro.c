@@ -138,6 +138,7 @@ bool retro_load_game_special(unsigned a, const struct retro_game_info *b, size_t
 
 void retro_unload_game(void)
 {
+   free(image_buffer);
 }
 
    unsigned retro_get_region(void) { return RETRO_REGION_NTSC; }
