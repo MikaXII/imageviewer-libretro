@@ -18,7 +18,9 @@ static unsigned image_width;
 static unsigned image_height;
 static bool image_uploaded;
 
-//#define DUPE_TEST
+#if 0
+#define DUPE_TEST
+#endif
 
 void retro_get_system_info(struct retro_system_info *info)
 {
