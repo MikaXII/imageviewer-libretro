@@ -171,8 +171,6 @@ CXXFLAGS += $(fpic) $(DEFINES)
 
 LIBS :=
 
-LDFLAGS += -lz
-
 all: $(TARGET)
 
 $(TARGET): $(OBJS)

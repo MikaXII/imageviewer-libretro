@@ -26,6 +26,5 @@ include $(CORE_DIR)/Makefile.common
 
 LOCAL_SRC_FILES    := $(SOURCES_C)
 LOCAL_CFLAGS       := -O2 -std=gnu99 -DINLINE=inline -D__LIBRETRO__
-LOCAL_LDLIBS       := -lz
 
 include $(BUILD_SHARED_LIBRARY)
