@@ -29,7 +29,7 @@ else ifneq ($(findstring MINGW,$(shell uname -a)),)
 endif
 
 LIBRETRO_DIR := .
-TARGET_NAME := image_display
+TARGET_NAME := imageviewer
 
 ifeq ($(platform), unix)
    TARGET := $(TARGET_NAME)_libretro.so
