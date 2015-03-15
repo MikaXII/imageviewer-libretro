@@ -87,11 +87,7 @@ void retro_set_controller_port_device(unsigned a, unsigned b) {}
 
 void retro_reset(void)
 {
-   if (image_buffer)
-      free(image_buffer);
-   image_buffer = NULL;
-   image_width = 0;
-   image_height = 0;
+   image_uploaded = false;
 }
 
 size_t retro_serialize_size(void)
@@ -138,7 +134,11 @@ bool retro_load_game_special(unsigned a, const struct retro_game_info *b, size_t
 
 void retro_unload_game(void)
 {
-   free(image_buffer);
+   if (image_buffer)
+      free(image_buffer);
+   image_buffer = NULL;
+   image_width = 0;
+   image_height = 0;
 }
 
    unsigned retro_get_region(void) { return RETRO_REGION_NTSC; }
