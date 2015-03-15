@@ -16,7 +16,9 @@ static retro_environment_t environ_cb;
 static uint32_t* image_buffer;
 static unsigned image_width;
 static unsigned image_height;
+static bool image_uploaded;
 
+//#define DUPE_TEST
 
 void retro_get_system_info(struct retro_system_info *info)
 {
@@ -114,15 +116,17 @@ void retro_cheat_set(unsigned a, bool b, const char * c) {}
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+   enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
+
    rpng_load_image_argb(info->path, &image_buffer, &image_width, &image_height);
 
-   enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
    if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt))
    {
       if (log_cb)
          log_cb(RETRO_LOG_INFO, "XRGB8888 is not supported.\n");
       return false;
    }
+
 
    return true;
 }
@@ -150,8 +154,18 @@ size_t retro_get_memory_size(unsigned id)
 void retro_run(void)
 {
    input_poll_cb();
-   video_cb(image_buffer, image_width, image_height, image_width * sizeof(uint32_t));
 
+#ifdef DUPE_TEST
+   if (!image_uploaded)
+   {
+      video_cb(image_buffer, image_width, image_height, image_width * sizeof(uint32_t));
+      image_uploaded = true;
+   }
+   else
+      video_cb(NULL, image_width, image_height, image_width * sizeof(uint32_t));
+#else
+   video_cb(image_buffer, image_width, image_height, image_width * sizeof(uint32_t));
+#endif
 }
 
 unsigned retro_api_version(void) { return RETRO_API_VERSION; }
