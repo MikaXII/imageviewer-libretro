@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "rpng.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 static retro_log_printf_t log_cb;
 static retro_video_refresh_t video_cb;
 static retro_input_poll_t input_poll_cb;
@@ -25,10 +26,10 @@ static bool image_uploaded;
 void retro_get_system_info(struct retro_system_info *info)
 {
    info->library_name = "image display";
-   info->library_version = "v0.0.1";
+   info->library_version = "v0.1";
    info->need_fullpath = true;
    info->block_extract = false;
-   info->valid_extensions = "png";
+   info->valid_extensions = "jpg|jpeg|png|bmp|psd|tga|gif|hdr|pic|ppm|pgm";
 }
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
@@ -115,9 +116,19 @@ void retro_cheat_set(unsigned a, bool b, const char * c) {}
 bool retro_load_game(const struct retro_game_info *info)
 {
    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
-
-   rpng_load_image_argb(info->path, &image_buffer, &image_width, &image_height);
-
+   unsigned comp;
+  
+   image_buffer = stbi_load (info->path,&image_width, &image_height, &comp, 4);
+   //RGBA > XRGB8888
+   uint32_t* buf = &image_buffer[0];
+   uint32_t* end = buf + (image_width*image_height*sizeof(uint32_t))/4;
+   while(buf < end) {
+    uint32_t pixel = *buf;
+    *buf = (pixel & 0xff00ff00) | ((pixel << 16) & 0x00ff0000) | ((pixel >> 16) & 0xff);
+    buf++;
+   }
+  
+  
    if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt))
    {
       if (log_cb)
