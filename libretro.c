@@ -118,7 +118,7 @@ bool retro_load_game(const struct retro_game_info *info)
    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
    unsigned comp;
   
-   image_buffer = stbi_load (info->path,&image_width, &image_height, &comp, 4);
+   image_buffer = (uint32_t*)stbi_load (info->path,&image_width, &image_height, &comp, 4);
    //RGBA > XRGB8888
    uint32_t* buf = &image_buffer[0];
    uint32_t* end = buf + (image_width*image_height*sizeof(uint32_t))/4;
