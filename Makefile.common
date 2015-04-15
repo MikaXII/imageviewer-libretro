@@ -1,23 +1,6 @@
-INCFLAGS := -I$(CORE_DIR) -I$(CORE_DIR)/deps/zlib
+INCFLAGS := -I$(CORE_DIR)
 
 SOURCES_CXX += 
 
-SOURCES_C   += $(CORE_DIR)/rpng.c \
-					$(CORE_DIR)/libretro.c
+SOURCES_C   += $(CORE_DIR)/libretro.c
 
-SOURCES_C += $(CORE_DIR)/deps/zlib/adler32.c \
-				 $(CORE_DIR)/deps/zlib/compress.c \
-				 $(CORE_DIR)/deps/zlib/crc32.c \
-				 $(CORE_DIR)/deps/zlib/deflate.c \
-				 $(CORE_DIR)/deps/zlib/gzclose.c \
-				 $(CORE_DIR)/deps/zlib/gzlib.c \
-				 $(CORE_DIR)/deps/zlib/gzread.c \
-				 $(CORE_DIR)/deps/zlib/gzwrite.c \
-				 $(CORE_DIR)/deps/zlib/inffast.c \
-				 $(CORE_DIR)/deps/zlib/inflate.c \
-				 $(CORE_DIR)/deps/zlib/inftrees.c \
-				 $(CORE_DIR)/deps/zlib/trees.c \
-				 $(CORE_DIR)/deps/zlib/uncompr.c \
-				 $(CORE_DIR)/deps/zlib/zutil.c \
-				 $(CORE_DIR)/deps/zlib/ioapi.c \
-				 $(CORE_DIR)/deps/zlib/unzip.c
