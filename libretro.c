@@ -15,8 +15,8 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 
 static uint32_t* image_buffer;
-static unsigned image_width;
-static unsigned image_height;
+static int image_width;
+static int image_height;
 static bool image_uploaded;
 
 #if 0
@@ -115,14 +115,16 @@ void retro_cheat_set(unsigned a, bool b, const char * c) {}
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+   uint32_t *buf, *end;
    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
-   unsigned comp;
+   int comp;
   
    image_buffer = (uint32_t*)stbi_load (info->path,&image_width, &image_height, &comp, 4);
    //RGBA > XRGB8888
-   uint32_t* buf = &image_buffer[0];
-   uint32_t* end = buf + (image_width*image_height*sizeof(uint32_t))/4;
-   while(buf < end) {
+   buf = &image_buffer[0];
+   end = buf + (image_width*image_height*sizeof(uint32_t))/4;
+   while(buf < end)
+   {
     uint32_t pixel = *buf;
     *buf = (pixel & 0xff00ff00) | ((pixel << 16) & 0x00ff0000) | ((pixel >> 16) & 0xff);
     buf++;
