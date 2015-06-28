@@ -5,8 +5,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+
 #define STB_IMAGE_IMPLEMENTATION
+
+#ifdef RARCH_INTERNAL
+#define STBI_NO_PSD
+#define STBI_NO_GIF
+#define STBI_NO_HDR
+#define STBI_NO_PIC
+#define STBI_NO_PNM
+#endif
+
 #include "stb_image.h"
+
 static retro_log_printf_t log_cb;
 static retro_video_refresh_t video_cb;
 static retro_input_poll_t input_poll_cb;
