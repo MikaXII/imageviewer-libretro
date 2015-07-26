@@ -5,29 +5,23 @@
 #include <stdint.h>
 #include <boolean.h>
 
-#ifdef RARCH_INTERNAL
-#include "../libretro.h"
-#define CORE_PREFIX(s) libretro_image_##s
-#else
-#include "libretro.h"
-#define CORE_PREFIX(s) s
-#endif
-
 #define STB_IMAGE_IMPLEMENTATION
 
 #ifdef RARCH_INTERNAL
+#define STB_IMAGE_STATIC
 #define STBI_NO_PSD
 #define STBI_NO_GIF
 #define STBI_NO_HDR
 #define STBI_NO_PIC
 #define STBI_NO_PNM
+#define STBI_SUPPORT_ZLIB
 #endif
 
 #include "stb_image.h"
 
 #ifdef RARCH_INTERNAL
 #include "../libretro.h"
-#define IMAGE_CORE_PREFIX(s) libretro_ffmpeg_##s
+#define IMAGE_CORE_PREFIX(s) libretro_imageviewer_##s
 #else
 #include "libretro.h"
 #define IMAGE_CORE_PREFIX(s) s
@@ -56,7 +50,7 @@ void IMAGE_CORE_PREFIX(retro_get_system_info)(struct retro_system_info *info)
    info->need_fullpath    = true;
    info->block_extract    = false;
 #ifdef RARCH_INTERNAL
-   info->valid_extensions = "jpg|jpeg|png|bmp|tga||ppm|pgm";
+   info->valid_extensions = "jpg|jpeg|png|bmp|tga";
 #else
    info->valid_extensions = "jpg|jpeg|png|bmp|psd|tga|gif|hdr|pic|ppm|pgm";
 #endif
